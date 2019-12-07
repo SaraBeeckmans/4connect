@@ -155,7 +155,7 @@ def minimax(board, depth, alpha, beta, maximizingPlayer):
             return None, score_position(board, AI_PIECE)
 
     if maximizingPlayer:
-        value = math.inf
+        value = -math.inf
         column = random.choice(valid_locations)
         for col in valid_locations:
             row = get_next_open_row(board, col)
