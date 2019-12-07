@@ -237,7 +237,7 @@ while not game_over:
     if turn == AI and not game_over:
         # col = int(input("Player 2 make your move(0-6)"))
         # col = random.randint(0, COL_COUNT - 1)
-         #col = pick_best_move(board, AI_PIECE)
+        #col = pick_best_move(board, AI_PIECE)
         col, minimaxscore = minimax(board, 5, -math.inf, math.inf, True)
 
         if is_valid_location(board, col):
