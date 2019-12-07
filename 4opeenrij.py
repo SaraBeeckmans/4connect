@@ -28,7 +28,13 @@ def drop_piece(board, row, col, piece):
 
 
 def is_valid_location(board, col):
-    return board[ROW_COUNT - 1][col] == 0
+    try:
+        col = int(col)
+        return board[ROW_COUNT - 1][col] == 0
+    except IndexError as e:
+        return False
+    except ValueError as e:
+        return False
 
 
 def get_next_open_row(board, col):
@@ -210,8 +216,11 @@ turn = random.randint(PLAYER, AI)
 
 while not game_over:
     if turn == PLAYER:
-        col = int(input("Player 1 make your move(0-6)"))
+        col = input("Player 1 make your move(0-6)")
+        while not is_valid_location(board, col):
+            col = input("Player 1 make your move(0-6)")
         if is_valid_location(board, col):
+            col = int(col)
             row = get_next_open_row(board, col)
             drop_piece(board, row, col, PLAYER_PIECE)
 
