@@ -31,9 +31,9 @@ def is_valid_location(board, col):
     try:
         col = int(col)
         return board[ROW_COUNT - 1][col] == 0
-    except IndexError as e:
+    except IndexError as e:  # opvangen van gatal boven 6
         return False
-    except ValueError as e:
+    except ValueError as e:  # opvangen van letters
         return False
 
 
@@ -104,7 +104,7 @@ def score_position(board, piece):
     center_array = [int(i) for i in list(board[:, COL_COUNT // 2])]
     center_count = center_array.count(piece)
     score += center_count * 3
-    #horizontaal
+    # horizontaal
 
     for r in range(ROW_COUNT):
         row_array = [int(i) for i in list(board[r, :])]
@@ -112,14 +112,14 @@ def score_position(board, piece):
             window = row_array[c:c + WINDOW_LENGTH]
             score += evaluate_window(window, piece)
 
-    #vertical
+    # vertical
     for c in range(COL_COUNT):
         col_array = [int(i) for i in list(board[:, c])]
         for r in range(ROW_COUNT - 3):
             window = col_array[r:r + WINDOW_LENGTH]
             score += evaluate_window(window, piece)
 
-    #positief diagonaal
+    # positief diagonaal
     for r in range(ROW_COUNT - 3):
         for c in range(COL_COUNT - 3):
             window = [board[r + i][c + i] for i in range(WINDOW_LENGTH)]
@@ -155,7 +155,7 @@ def minimax(board, depth, alpha, beta, maximizingPlayer):
                 return None, 100000000000000000000
             elif winning_move(board, PLAYER_PIECE):
                 return None, -10000000000000000
-            else:  #gameover
+            else:  # gameover
                 return None, 0
         else:  # depth is 0
             return None, score_position(board, AI_PIECE)
@@ -231,17 +231,10 @@ while not game_over:
             turn += 1
             turn = turn % 2
 
-        else:
-            turn = PLAYER
-
     if turn == AI and not game_over:
-        # col = int(input("Player 2 make your move(0-6)"))
-        # col = random.randint(0, COL_COUNT - 1)
-        #col = pick_best_move(board, AI_PIECE)
         col, minimaxscore = minimax(board, 5, -math.inf, math.inf, True)
 
         if is_valid_location(board, col):
-            # pygame.time.wait(500)
             row = get_next_open_row(board, col)
             drop_piece(board, row, col, AI_PIECE)
 
